@@ -6,3 +6,4 @@
 export 'pages/pages.exports.dart';
 export 'routes/routes.exports.dart';
 export 'utils/utils.exports.dart';
+export 'widgets/widgets.exports.dart';
