@@ -3,4 +3,5 @@
 // run :
 // genexp
 
+export 'chip.dart';
 export 'navigation_drawer.dart';

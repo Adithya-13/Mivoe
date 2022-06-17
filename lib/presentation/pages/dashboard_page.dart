@@ -164,11 +164,11 @@ class _DashBoardPageState extends State<DashBoardPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _chip(text: 'Action'),
+            const ChipItem(text: 'Action'),
             const SizedBox(width: 8),
-            _chip(text: '2020'),
+            const ChipItem(text: '2020'),
             const SizedBox(width: 8),
-            _chip(
+            ChipItem(
               widget: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -251,21 +251,6 @@ class _DashBoardPageState extends State<DashBoardPage> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _chip({String? text, Widget? widget}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
-      decoration: BoxDecoration(
-        color: AppTheme.purpleDark,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: widget ??
-          Text(
-            text!,
-            style: AppTheme.text2,
-          ),
     );
   }
 
