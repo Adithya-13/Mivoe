@@ -41,7 +41,7 @@ dependencies:
   cached_network_image: ^3.0.0
   google_fonts: ^3.0.1
   gen_export: ^1.1.14
-  flutter_swiper: ^1.1.6
+  card_swiper: ^2.0.4
   flutter_slider_drawer: ^2.1.1
   flutter_svg: ^1.1.0
   get_storage: ^2.0.3
