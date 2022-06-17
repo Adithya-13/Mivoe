@@ -86,18 +86,24 @@ class _DashBoardPageState extends State<DashBoardPage> {
           ),
         ),
       ),
-      trailing: Container(
-        decoration: const BoxDecoration(
-          color: AppTheme.purpleDark,
-          borderRadius: BorderRadius.horizontal(
-            left: Radius.circular(40),
+      trailing: GestureDetector(
+        onTap: () => Navigator.pushNamed(context, PagePath.search),
+        child: Container(
+          decoration: const BoxDecoration(
+            color: AppTheme.purpleDark,
+            borderRadius: BorderRadius.horizontal(
+              left: Radius.circular(40),
+            ),
           ),
-        ),
-        padding: const EdgeInsets.all(12),
-        child: SvgPicture.asset(
-          Resources.search,
-          width: 28,
-          color: AppTheme.white,
+          padding: const EdgeInsets.all(12),
+          child: Hero(
+            tag: Keys.searchIcon,
+            child: SvgPicture.asset(
+              Resources.search,
+              width: 28,
+              color: AppTheme.white,
+            ),
+          ),
         ),
       ),
     );

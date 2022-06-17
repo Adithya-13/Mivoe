@@ -16,4 +16,5 @@ class Resources {
 
 class Keys {
   static const String isOnBoardInitial = 'isOnBoardInitial';
+  static const String searchIcon = 'searchIcon';
 }

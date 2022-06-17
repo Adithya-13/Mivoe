@@ -13,6 +13,8 @@ class PageRouter {
         return _buildRoute(settings, const SplashPage());
       case PagePath.dashboard:
         return _buildRoute(settings, const DashBoardPage());
+      case PagePath.search:
+        return _buildRoute(settings, const SearchPage());
       default:
         return _errorRoute();
     }
