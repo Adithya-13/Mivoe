@@ -31,4 +31,13 @@ class MivoeApi {
       return ApiResult.failure(NetworkExceptions.getDioException(e));
     }
   }
+
+  Future<ApiResult<UpcomingResponse>> fetchUpcoming() async {
+    try {
+      final response = await dioClient.get('/movie/upcoming');
+      return ApiResult.success(UpcomingResponse.fromJson(response));
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
 }

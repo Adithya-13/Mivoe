@@ -10,13 +10,15 @@ class UpcomingBloc extends Bloc<UpcomingEvent, UpcomingState> {
   UpcomingBloc({required this.dashboardRepository}) : super(UpcomingInitial()) {
     on<UpcomingFetched>((event, emit) async {
       emit(UpcomingLoading());
-      try {
-        final UpcomingEntity entity =
-            await dashboardRepository.getUpcomingList();
-        emit(UpcomingLoaded(upcomingEntity: entity));
-      } catch (e) {
-        emit(UpcomingFailure(error: e.toString()));
-      }
+      final result = await dashboardRepository.getUpcomingList();
+      result.when(
+        success: ((entity) {
+          emit(UpcomingLoaded(upcomingEntity: entity));
+        }),
+        failure: (error) {
+          emit(UpcomingFailure(error: NetworkExceptions.getErrorMessage(error)));
+        },
+      );
     });
   }
 }

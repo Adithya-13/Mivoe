@@ -64,4 +64,25 @@ class DataMapper {
       failure: (error) => ApiResult.failure(error),
     );
   }
+
+  static ApiResult<UpcomingEntity> mapUpcomingEntity(
+      ApiResult<UpcomingResponse> response) {
+    return response.when(
+      success: (UpcomingResponse data) => ApiResult.success(
+        UpcomingEntity(
+          upcomingList: data.upcomingList
+              ?.map((item) => MovieItemEntity(
+                    id: item.id.toString(),
+                    title: item.title,
+                    posterPath:
+                        "https://image.tmdb.org/t/p/original${item.posterPath}",
+                    releaseDate: item.releaseDate,
+                    rating: item.voteAverage,
+                  ))
+              .toList(),
+        ),
+      ),
+      failure: (error) => ApiResult.failure(error),
+    );
+  }
 }

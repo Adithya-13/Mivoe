@@ -20,9 +20,8 @@ class DashboardRepository {
     return DataMapper.mapPopularEntity(response);
   }
 
-  Future<UpcomingEntity> getUpcomingList() async {
-    await Future.delayed(const Duration(seconds: 3));
-    final UpcomingEntity entity = Dummy.getUpcomingList();
-    return entity;
+  Future<ApiResult<UpcomingEntity>> getUpcomingList() async {
+    final response = await _mivoeApi.fetchUpcoming();
+    return DataMapper.mapUpcomingEntity(response);
   }
 }
