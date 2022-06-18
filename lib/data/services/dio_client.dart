@@ -17,8 +17,9 @@ class DioClient {
   DioClient({
     required this.baseUrl,
     required this.apiKey,
-    required Dio dio, 
-    this.interceptors, required HttpClient httpClient,
+    required Dio dio,
+    this.interceptors,
+    required HttpClient httpClient,
   }) {
     _dio = dio;
     _dio

@@ -10,10 +10,9 @@ class DashboardRepository {
     return DataMapper.mapNowPlayingEntity(response);
   }
 
-  Future<TopRatedEntity> getTopRatedList() async {
-    await Future.delayed(const Duration(seconds: 3));
-    final TopRatedEntity entity = Dummy.getTopRatedList();
-    return entity;
+  Future<ApiResult<TopRatedEntity>> getTopRatedList() async {
+    final response = await _mivoeApi.fetchTopRated();
+    return DataMapper.mapTopRatedEntity(response);
   }
 
   Future<PopularEntity> getPopularList() async {

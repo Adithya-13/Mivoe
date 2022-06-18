@@ -4,3 +4,4 @@
 // genexp
 
 export 'now_playing_response.dart';
+export 'top_rated_response.dart';

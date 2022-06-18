@@ -17,7 +17,8 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
           emit(NowPlayingLoaded(nowPlayingEntity: entity));
         }),
         failure: (error) {
-          emit(NowPlayingFailure(error: NetworkExceptions.getErrorMessage(error)));
+          emit(NowPlayingFailure(
+              error: NetworkExceptions.getErrorMessage(error)));
         },
       );
     });

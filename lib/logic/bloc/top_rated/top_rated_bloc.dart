@@ -10,13 +10,16 @@ class TopRatedBloc extends Bloc<TopRatedEvent, TopRatedState> {
   TopRatedBloc({required this.dashboardRepository}) : super(TopRatedInitial()) {
     on<TopRatedFetched>((event, emit) async {
       emit(TopRatedLoading());
-      try {
-        final TopRatedEntity entity =
-            await dashboardRepository.getTopRatedList();
-        emit(TopRatedLoaded(topRatedEntity: entity));
-      } catch (e) {
-        emit(TopRatedFailure(error: e.toString()));
-      }
+      final result = await dashboardRepository.getTopRatedList();
+      result.when(
+        success: ((entity) {
+          emit(TopRatedLoaded(topRatedEntity: entity));
+        }),
+        failure: (error) {
+          emit(TopRatedFailure(
+              error: NetworkExceptions.getErrorMessage(error)));
+        },
+      );
     });
   }
 }

@@ -18,7 +18,7 @@ void main() {
           'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MzQxMmM4OTFkMTRjZDBkNTQ3YjQ1MTY4NjM4MzNhYiIsInN1YiI6IjVmOWQ1ZmM3NTM4NjZlMDAzNmU5NGJhYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.sFqV8zoDl3H1waHewQ8S1WQdBh8YJWfSz_AXp_RVFes',
       dio: dio,
       httpClient: HttpClient());
-      
+
   final mivoeApi = MivoeApi(
     dioClient: dioClient,
   );

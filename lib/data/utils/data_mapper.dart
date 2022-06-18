@@ -10,9 +10,31 @@ class DataMapper {
               ?.map((item) => MovieItemEntity(
                     id: item.id.toString(),
                     title: item.title,
-                    posterPath: "https://image.tmdb.org/t/p/original${item.posterPath}",
+                    posterPath:
+                        "https://image.tmdb.org/t/p/original${item.posterPath}",
                     releaseDate: item.releaseDate,
                     synopsis: item.overview,
+                    rating: item.voteAverage,
+                  ))
+              .toList(),
+        ),
+      ),
+      failure: (error) => ApiResult.failure(error),
+    );
+  }
+
+  static ApiResult<TopRatedEntity> mapTopRatedEntity(
+      ApiResult<TopRatedResponse> response) {
+    return response.when(
+      success: (TopRatedResponse data) => ApiResult.success(
+        TopRatedEntity(
+          topRatedList: data.topRatedList
+              ?.map((item) => MovieItemEntity(
+                    id: item.id.toString(),
+                    title: item.title,
+                    posterPath:
+                        "https://image.tmdb.org/t/p/original${item.posterPath}",
+                    releaseDate: item.releaseDate,
                     rating: item.voteAverage,
                   ))
               .toList(),

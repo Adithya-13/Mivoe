@@ -393,11 +393,12 @@ class _DashBoardPageState extends State<DashBoardPage> {
       onTap: () => Navigator.pushNamed(context, PagePath.detailMovie,
           arguments: ArgumentBundle(id: movieItem.id)),
       child: Container(
-        padding: EdgeInsets.only(left: index == 0 ? 16 : 0, right: 16),
+        margin: EdgeInsets.only(left: index == 0 ? 16 : 0, right: 16),
         height: MediaQuery.of(context).size.height * 0.24,
+        width: MediaQuery.of(context).size.width * 0.36,
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.2,
