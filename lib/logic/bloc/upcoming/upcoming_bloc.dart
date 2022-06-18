@@ -16,7 +16,8 @@ class UpcomingBloc extends Bloc<UpcomingEvent, UpcomingState> {
           emit(UpcomingLoaded(upcomingEntity: entity));
         }),
         failure: (error) {
-          emit(UpcomingFailure(error: NetworkExceptions.getErrorMessage(error)));
+          emit(
+              UpcomingFailure(error: NetworkExceptions.getErrorMessage(error)));
         },
       );
     });

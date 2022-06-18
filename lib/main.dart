@@ -33,7 +33,9 @@ void main() {
             ),
           ),
           RepositoryProvider<DetailRepository>(
-            create: (context) => DetailRepository(),
+            create: (context) => DetailRepository(
+              mivoeApi: mivoeApi,
+            ),
           ),
           RepositoryProvider<SearchRepository>(
             create: (context) => SearchRepository(),

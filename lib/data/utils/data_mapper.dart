@@ -85,4 +85,29 @@ class DataMapper {
       failure: (error) => ApiResult.failure(error),
     );
   }
+
+  static ApiResult<MovieDetailEntity> mapMovieDetailEntity(
+      ApiResult<MovieDetailResponse> response) {
+    return response.when(
+      success: (MovieDetailResponse data) => ApiResult.success(
+        MovieDetailEntity(
+          id: data.id.toString(),
+          title: data.title,
+          posterPath: "https://image.tmdb.org/t/p/original${data.posterPath}",
+          releaseDate: data.releaseDate,
+          rating: data.voteAverage,
+          synopsis: data.overview,
+          budget: data.budget.toString(),
+          duration: data.runtime.toString(),
+          genres: data.genres?.map((e) => e.name!).toList(),
+          popularity: data.popularity.toString(),
+          revenue: data.revenue.toString(),
+          tagline: data.tagline,
+          voteAverage: data.voteAverage.toString(),
+          voteCount: data.voteCount.toString(),
+        ),
+      ),
+      failure: (error) => ApiResult.failure(error),
+    );
+  }
 }

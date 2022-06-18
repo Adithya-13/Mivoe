@@ -11,14 +11,16 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
       : super(MovieDetailInitial()) {
     on<MovieDetailFetched>((event, emit) async {
       emit(MovieDetailLoading());
-      print('loading');
-      try {
-        final MovieDetailEntity entity =
-            await detailRepository.getMovieDetail(event.movieId);
-        emit(MovieDetailLoaded(movieDetailEntity: entity));
-      } catch (e) {
-        emit(MovieDetailFailure(error: e.toString()));
-      }
+      final result = await detailRepository.getMovieDetail(event.movieId);
+      result.when(
+        success: ((entity) {
+          emit(MovieDetailLoaded(movieDetailEntity: entity));
+        }),
+        failure: (error) {
+          emit(MovieDetailFailure(
+              error: NetworkExceptions.getErrorMessage(error)));
+        },
+      );
     });
   }
 }
