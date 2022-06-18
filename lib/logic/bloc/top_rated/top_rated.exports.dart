@@ -3,4 +3,4 @@
 // run :
 // genexp
 
-export 'now_playing_bloc.dart';
+export 'top_rated_bloc.dart';

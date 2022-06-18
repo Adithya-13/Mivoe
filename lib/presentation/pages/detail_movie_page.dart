@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mivoe/mivoe.dart';
 
-class DetailMoviePage extends StatelessWidget {
+class DetailMoviePage extends StatefulWidget {
   const DetailMoviePage({Key? key}) : super(key: key);
+
+  @override
+  State<DetailMoviePage> createState() => _DetailMoviePageState();
+}
+
+class _DetailMoviePageState extends State<DetailMoviePage> {
+  bool isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +34,10 @@ class DetailMoviePage extends StatelessWidget {
                     _divider(),
                     const SizedBox(height: 8),
                     _synopsis(),
+                    const SizedBox(height: 8),
+                    _divider(),
+                    const SizedBox(height: 8),
+                    _other(),
                   ],
                 ),
               ),
@@ -86,23 +97,31 @@ class DetailMoviePage extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 12),
-        GestureDetector(
-          onTap: () {},
-          child: Container(
-            decoration: const BoxDecoration(
-              color: AppTheme.purpleDark,
-              borderRadius: BorderRadius.horizontal(
-                left: Radius.circular(40),
+        StatefulBuilder(builder: (context, favoriteSetState) {
+          return GestureDetector(
+            onTap: () {
+              favoriteSetState(() {
+                isFavorite = !isFavorite;
+              });
+            },
+            child: Container(
+              decoration: const BoxDecoration(
+                color: AppTheme.purpleDark,
+                borderRadius: BorderRadius.horizontal(
+                  left: Radius.circular(40),
+                ),
+              ),
+              padding: const EdgeInsets.all(12),
+              child: Icon(
+                isFavorite
+                    ? Icons.favorite_rounded
+                    : Icons.favorite_border_rounded,
+                color: AppTheme.pink,
+                size: 28,
               ),
             ),
-            padding: const EdgeInsets.all(12),
-            child: const Icon(
-              Icons.favorite_border_rounded,
-              color: AppTheme.pink,
-              size: 28,
-            ),
-          ),
-        ),
+          );
+        }),
       ],
     );
   }
@@ -202,6 +221,11 @@ class DetailMoviePage extends StatelessWidget {
             'Dune (2020)',
             style: AppTheme.headline1,
           ),
+          const SizedBox(height: 4),
+          Text(
+            'How much can you know about yourself if you\'ve never been in a fight?',
+            style: AppTheme.text2,
+          ),
           const SizedBox(height: 8),
           Wrap(
             children:
@@ -249,6 +273,60 @@ class DetailMoviePage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _other() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _otherItem(
+            title: 'Budget',
+            value: '\$1,000,000',
+          ),
+          const SizedBox(height: 8),
+          _otherItem(
+            title: 'Revenue',
+            value: '\$1,000,000',
+          ),
+          const SizedBox(height: 8),
+          _otherItem(
+            title: 'Popularity',
+            value: '0.5',
+          ),
+          const SizedBox(height: 8),
+          _otherItem(
+            title: 'Vote Average',
+            value: '8.2',
+          ),
+          const SizedBox(height: 8),
+          _otherItem(
+            title: 'Vote Count',
+            value: '1306',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _otherItem({required String title, required String value}) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 2,
+          child: Text(
+            '$title: ',
+            style: AppTheme.headline3,
+          ),
+        ),
+        Expanded(
+          flex: 3,
+          child: Text(value, style: AppTheme.text1),
+        ),
+      ],
     );
   }
 }

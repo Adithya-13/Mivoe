@@ -1,4 +1,4 @@
-part of 'nowplaying_bloc.dart';
+part of 'now_playing_bloc.dart';
 
 abstract class NowPlayingState extends Equatable {
   const NowPlayingState();

@@ -21,6 +21,21 @@ void main() {
                 dashboardRepository: context.read<DashboardRepository>(),
               ),
             ),
+            BlocProvider<PopularBloc>(
+              create: (context) => PopularBloc(
+                dashboardRepository: context.read<DashboardRepository>(),
+              ),
+            ),
+            BlocProvider<UpcomingBloc>(
+              create: (context) => UpcomingBloc(
+                dashboardRepository: context.read<DashboardRepository>(),
+              ),
+            ),
+            BlocProvider<TopRatedBloc>(
+              create: (context) => TopRatedBloc(
+                dashboardRepository: context.read<DashboardRepository>(),
+              ),
+            ),
           ],
           child: MivoeApp(),
         ),

@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mivoe/mivoe.dart';
 
-part 'nowplaying_event.dart';
-part 'nowplaying_state.dart';
+part 'now_playing_event.dart';
+part 'now_playing_state.dart';
 
 class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
   final DashboardRepository dashboardRepository;

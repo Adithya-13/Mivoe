@@ -21,6 +21,9 @@ class _DashBoardPageState extends State<DashBoardPage> {
   @override
   void initState() {
     context.read<NowPlayingBloc>().add(NowPlayingFetched());
+    context.read<PopularBloc>().add(PopularFetched());
+    context.read<UpcomingBloc>().add(UpcomingFetched());
+    context.read<TopRatedBloc>().add(TopRatedFetched());
     super.initState();
   }
 
@@ -250,14 +253,30 @@ class _DashBoardPageState extends State<DashBoardPage> {
         const SizedBox(height: 20),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.26,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return _movieItem(index, context);
+          child: BlocBuilder<TopRatedBloc, TopRatedState>(
+            builder: (context, state) {
+              if (state is TopRatedLoading || state is TopRatedInitial) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is TopRatedFailure) {
+                return Center(
+                  child: Text('Failed to load', style: AppTheme.headline1),
+                );
+              } else if (state is TopRatedLoaded) {
+                return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    final movieItem = state.topRatedEntity.topRatedList[index];
+                    return _movieItem(context, index, movieItem);
+                  },
+                  itemCount: 4,
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                );
+              }
+              return Container();
             },
-            itemCount: 4,
-            shrinkWrap: true,
-            physics: const BouncingScrollPhysics(),
           ),
         ),
       ],
@@ -272,14 +291,30 @@ class _DashBoardPageState extends State<DashBoardPage> {
         const SizedBox(height: 20),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.26,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return _movieItem(index, context);
+          child: BlocBuilder<PopularBloc, PopularState>(
+            builder: (context, state) {
+              if (state is PopularLoading || state is PopularInitial) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is PopularFailure) {
+                return Center(
+                  child: Text('Failed to load', style: AppTheme.headline1),
+                );
+              } else if (state is PopularLoaded) {
+                return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    final movieItem = state.popularEntity.popularList[index];
+                    return _movieItem(context, index, movieItem);
+                  },
+                  itemCount: 4,
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                );
+              }
+              return Container();
             },
-            itemCount: 4,
-            shrinkWrap: true,
-            physics: const BouncingScrollPhysics(),
           ),
         ),
       ],
@@ -294,14 +329,30 @@ class _DashBoardPageState extends State<DashBoardPage> {
         const SizedBox(height: 20),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.26,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return _movieItem(index, context);
+          child: BlocBuilder<UpcomingBloc, UpcomingState>(
+            builder: (context, state) {
+              if (state is UpcomingLoading || state is UpcomingInitial) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is UpcomingFailure) {
+                return Center(
+                  child: Text('Failed to load', style: AppTheme.headline1),
+                );
+              } else if (state is UpcomingLoaded) {
+                return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    final movieItem = state.upcomingEntity.upcomingList[index];
+                    return _movieItem(context, index, movieItem);
+                  },
+                  itemCount: 4,
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                );
+              }
+              return Container();
             },
-            itemCount: 4,
-            shrinkWrap: true,
-            physics: const BouncingScrollPhysics(),
           ),
         ),
       ],
@@ -331,7 +382,8 @@ class _DashBoardPageState extends State<DashBoardPage> {
     );
   }
 
-  Widget _movieItem(int index, BuildContext context) {
+  Widget _movieItem(
+      BuildContext context, int index, MovieItemEntity movieItem) {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, PagePath.detailMovie),
       child: Container(
@@ -350,8 +402,8 @@ class _DashBoardPageState extends State<DashBoardPage> {
                     Positioned.fill(
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: Image.asset(
-                          Resources.adit,
+                        child: CachedNetworkImage(
+                          imageUrl: movieItem.posterPath,
                           fit: BoxFit.cover,
                           height: MediaQuery.of(context).size.height * 0.16,
                         ),
@@ -377,7 +429,8 @@ class _DashBoardPageState extends State<DashBoardPage> {
                               color: AppTheme.yellow,
                             ),
                             const SizedBox(width: 8),
-                            Text('9.2', style: AppTheme.subText1),
+                            Text(movieItem.rating.toString(),
+                                style: AppTheme.subText1),
                           ],
                         ),
                       ),
@@ -388,14 +441,14 @@ class _DashBoardPageState extends State<DashBoardPage> {
             ),
             const SizedBox(height: 4),
             Text(
-              'Dune',
+              movieItem.title,
               style: AppTheme.text1,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 2),
             Text(
-              '2020',
+              movieItem.releaseDate,
               style: AppTheme.subText1,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

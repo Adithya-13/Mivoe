@@ -53,41 +53,41 @@ class Dummy {
       topRatedList: [
         MovieItemEntity(
           id: '1',
-          title: 'Avengers: Endgame',
+          title: 'Avengers: Endgame 1',
           posterPath:
-              'https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9d716qKqfZ.jpg',
+              'https://www.themoviedb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg',
           releaseDate: '2019-04-24',
           rating: 8.8,
         ),
         MovieItemEntity(
           id: '2',
-          title: 'Avengers: Endgame',
+          title: 'Avengers: Endgame 2',
           posterPath:
-              'https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9d716qKqfZ.jpg',
+              'https://www.themoviedb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg',
           releaseDate: '2019-04-24',
           rating: 8.8,
         ),
         MovieItemEntity(
           id: '3',
-          title: 'Avengers: Endgame',
+          title: 'Avengers: Endgame 3',
           posterPath:
-              'https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9d716qKqfZ.jpg',
+              'https://www.themoviedb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg',
           releaseDate: '2019-04-24',
           rating: 8.8,
         ),
         MovieItemEntity(
           id: '4',
-          title: 'Avengers: Endgame',
+          title: 'Avengers: Endgame 4',
           posterPath:
-              'https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9d716qKqfZ.jpg',
+              'https://www.themoviedb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg',
           releaseDate: '2019-04-24',
           rating: 8.8,
         ),
         MovieItemEntity(
           id: '5',
-          title: 'Avengers: Endgame',
+          title: 'Avengers: Endgame 5',
           posterPath:
-              'https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9d716qKqfZ.jpg',
+              'https://www.themoviedb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg',
           releaseDate: '2019-04-24',
           rating: 8.8,
         ),
@@ -100,41 +100,41 @@ class Dummy {
       popularList: [
         MovieItemEntity(
           id: '1',
-          title: 'Avengers: Endgame',
+          title: 'Avengers: Endgame 1',
           posterPath:
-              'https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9d716qKqfZ.jpg',
+              'https://www.themoviedb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg',
           releaseDate: '2019-04-24',
           rating: 8.8,
         ),
         MovieItemEntity(
           id: '2',
-          title: 'Avengers: Endgame',
+          title: 'Avengers: Endgame 2',
           posterPath:
-              'https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9d716qKqfZ.jpg',
+              'https://www.themoviedb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg',
           releaseDate: '2019-04-24',
           rating: 8.8,
         ),
         MovieItemEntity(
           id: '3',
-          title: 'Avengers: Endgame',
+          title: 'Avengers: Endgame 3',
           posterPath:
-              'https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9d716qKqfZ.jpg',
+              'https://www.themoviedb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg',
           releaseDate: '2019-04-24',
           rating: 8.8,
         ),
         MovieItemEntity(
           id: '4',
-          title: 'Avengers: Endgame',
+          title: 'Avengers: Endgame 4',
           posterPath:
-              'https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9d716qKqfZ.jpg',
+              'https://www.themoviedb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg',
           releaseDate: '2019-04-24',
           rating: 8.8,
         ),
         MovieItemEntity(
           id: '5',
-          title: 'Avengers: Endgame',
+          title: 'Avengers: Endgame 5',
           posterPath:
-              'https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9d716qKqfZ.jpg',
+              'https://www.themoviedb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg',
           releaseDate: '2019-04-24',
           rating: 8.8,
         ),
@@ -147,41 +147,41 @@ class Dummy {
       upcomingList: [
         MovieItemEntity(
           id: '1',
-          title: 'Avengers: Endgame',
+          title: 'Avengers: Endgame 1',
           posterPath:
-              'https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9d716qKqfZ.jpg',
+              'https://www.themoviedb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg',
           releaseDate: '2019-04-24',
           rating: 8.8,
         ),
         MovieItemEntity(
           id: '2',
-          title: 'Avengers: Endgame',
+          title: 'Avengers: Endgame 2',
           posterPath:
-              'https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9d716qKqfZ.jpg',
+              'https://www.themoviedb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg',
           releaseDate: '2019-04-24',
           rating: 8.8,
         ),
         MovieItemEntity(
           id: '3',
-          title: 'Avengers: Endgame',
+          title: 'Avengers: Endgame 3',
           posterPath:
-              'https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9d716qKqfZ.jpg',
+              'https://www.themoviedb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg',
           releaseDate: '2019-04-24',
           rating: 8.8,
         ),
         MovieItemEntity(
           id: '4',
-          title: 'Avengers: Endgame',
+          title: 'Avengers: Endgame 4',
           posterPath:
-              'https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9d716qKqfZ.jpg',
+              'https://www.themoviedb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg',
           releaseDate: '2019-04-24',
           rating: 8.8,
         ),
         MovieItemEntity(
           id: '5',
-          title: 'Avengers: Endgame',
+          title: 'Avengers: Endgame 5',
           posterPath:
-              'https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9d716qKqfZ.jpg',
+              'https://www.themoviedb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg',
           releaseDate: '2019-04-24',
           rating: 8.8,
         ),
