@@ -16,7 +16,11 @@ class PageRouter {
       case PagePath.search:
         return _buildRoute(settings, const SearchPage());
       case PagePath.detailMovie:
-        return _buildRoute(settings, DetailMoviePage(bundle: args as ArgumentBundle?,));
+        return _buildRoute(
+            settings,
+            DetailMoviePage(
+              bundle: args as ArgumentBundle?,
+            ));
       default:
         return _errorRoute();
     }

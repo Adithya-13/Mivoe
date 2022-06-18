@@ -16,6 +16,9 @@ void main() {
           RepositoryProvider<DetailRepository>(
             create: (context) => DetailRepository(),
           ),
+          RepositoryProvider<SearchRepository>(
+            create: (context) => SearchRepository(),
+          ),
         ],
         child: MultiBlocProvider(
           providers: [
@@ -42,6 +45,11 @@ void main() {
             BlocProvider<MovieDetailBloc>(
               create: (context) => MovieDetailBloc(
                 detailRepository: context.read<DetailRepository>(),
+              ),
+            ),
+            BlocProvider<SearchBloc>(
+              create: (context) => SearchBloc(
+                searchRepository: context.read<SearchRepository>(),
               ),
             ),
           ],

@@ -34,6 +34,7 @@ class MovieItemEntity extends BaseEntity {
   final String title;
   final String posterPath;
   final String releaseDate;
+  final String synopsis;
   final double rating;
 
   MovieItemEntity({
@@ -41,10 +42,12 @@ class MovieItemEntity extends BaseEntity {
     String? title,
     String? posterPath,
     String? releaseDate,
+    String? synopsis,
     double? rating,
   })  : id = id ?? '',
         title = title ?? '',
         posterPath = posterPath ?? '',
         releaseDate = releaseDate ?? '',
+        synopsis = synopsis ?? '',
         rating = rating ?? 0.0;
 }

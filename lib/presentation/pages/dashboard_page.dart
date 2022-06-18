@@ -185,7 +185,8 @@ class _DashBoardPageState extends State<DashBoardPage> {
                       itemCount: movieList.length,
                       onTap: (index) {
                         final movieItem = movieList[index];
-                        Navigator.pushNamed(context, PagePath.detailMovie, arguments: ArgumentBundle(id: movieItem.id));
+                        Navigator.pushNamed(context, PagePath.detailMovie,
+                            arguments: ArgumentBundle(id: movieItem.id));
                       },
                       onIndexChanged: (index) {
                         setState(() {
@@ -265,13 +266,14 @@ class _DashBoardPageState extends State<DashBoardPage> {
                   child: Text('Failed to load', style: AppTheme.headline1),
                 );
               } else if (state is TopRatedLoaded) {
+                final movieList = state.topRatedEntity.topRatedList;
                 return ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    final movieItem = state.topRatedEntity.topRatedList[index];
+                    final movieItem = movieList[index];
                     return _movieItem(context, index, movieItem);
                   },
-                  itemCount: 4,
+                  itemCount: movieList.length,
                   shrinkWrap: true,
                   physics: const BouncingScrollPhysics(),
                 );
@@ -303,13 +305,14 @@ class _DashBoardPageState extends State<DashBoardPage> {
                   child: Text('Failed to load', style: AppTheme.headline1),
                 );
               } else if (state is PopularLoaded) {
+                final movieList = state.popularEntity.popularList;
                 return ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    final movieItem = state.popularEntity.popularList[index];
+                    final movieItem = movieList[index];
                     return _movieItem(context, index, movieItem);
                   },
-                  itemCount: 4,
+                  itemCount: movieList.length,
                   shrinkWrap: true,
                   physics: const BouncingScrollPhysics(),
                 );
@@ -341,13 +344,14 @@ class _DashBoardPageState extends State<DashBoardPage> {
                   child: Text('Failed to load', style: AppTheme.headline1),
                 );
               } else if (state is UpcomingLoaded) {
+                final movieList = state.upcomingEntity.upcomingList;
                 return ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    final movieItem = state.upcomingEntity.upcomingList[index];
+                    final movieItem = movieList[index];
                     return _movieItem(context, index, movieItem);
                   },
-                  itemCount: 4,
+                  itemCount: movieList.length,
                   shrinkWrap: true,
                   physics: const BouncingScrollPhysics(),
                 );
@@ -386,7 +390,8 @@ class _DashBoardPageState extends State<DashBoardPage> {
   Widget _movieItem(
       BuildContext context, int index, MovieItemEntity movieItem) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, PagePath.detailMovie, arguments: ArgumentBundle(id: movieItem.id)),
+      onTap: () => Navigator.pushNamed(context, PagePath.detailMovie,
+          arguments: ArgumentBundle(id: movieItem.id)),
       child: Container(
         padding: EdgeInsets.only(left: index == 0 ? 16 : 0, right: 16),
         height: MediaQuery.of(context).size.height * 0.24,

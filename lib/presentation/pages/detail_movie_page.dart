@@ -18,7 +18,9 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
   @override
   void initState() {
     if (widget.bundle != null) {
-      context.read<MovieDetailBloc>().add(MovieDetailFetched(movieId: widget.bundle!.id));
+      context
+          .read<MovieDetailBloc>()
+          .add(MovieDetailFetched(movieId: widget.bundle!.id));
     }
     super.initState();
   }

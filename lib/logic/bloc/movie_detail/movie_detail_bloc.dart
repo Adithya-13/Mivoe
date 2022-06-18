@@ -9,7 +9,6 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
   final DetailRepository detailRepository;
   MovieDetailBloc({required this.detailRepository})
       : super(MovieDetailInitial()) {
-
     on<MovieDetailFetched>((event, emit) async {
       emit(MovieDetailLoading());
       print('loading');

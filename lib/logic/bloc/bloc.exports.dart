@@ -7,5 +7,6 @@ export 'bloc_delegate.dart';
 export 'movie_detail/movie_detail.exports.dart';
 export 'now_playing/now_playing.exports.dart';
 export 'popular/popular.exports.dart';
+export 'search/search.exports.dart';
 export 'top_rated/top_rated.exports.dart';
 export 'upcoming/upcoming.exports.dart';

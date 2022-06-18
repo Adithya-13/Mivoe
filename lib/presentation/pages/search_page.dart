@@ -1,10 +1,17 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mivoe/mivoe.dart';
 
-class SearchPage extends StatelessWidget {
+class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
 
+  @override
+  State<SearchPage> createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,30 +22,60 @@ class SearchPage extends StatelessWidget {
           children: [
             _headerSearch(context),
             const SizedBox(height: 24),
-            _searchResultTotal(),
-            const SizedBox(height: 24),
-            _movieList(),
+            Expanded(
+              child: BlocBuilder<SearchBloc, SearchState>(
+                builder: (context, state) {
+                  if (state is SearchInitial) {
+                    return Center(
+                      child: Text('Search Movies', style: AppTheme.headline1),
+                    );
+                  } else if (state is SearchLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is SearchFailure) {
+                    return Center(
+                      child: Text('Cannot search movies',
+                          style: AppTheme.headline1),
+                    );
+                  } else if (state is SearchLoaded) {
+                    final SearchEntity entity = state.searchEntity;
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _searchResultTotal(entity),
+                        const SizedBox(height: 24),
+                        _movieList(entity),
+                      ],
+                    );
+                  }
+                  return Container();
+                },
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Expanded _movieList() {
+  Expanded _movieList(SearchEntity entity) {
     return Expanded(
       child: ListView.builder(
-        itemCount: 10,
+        itemCount: entity.searchList.length,
         physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) {
-          return _movieItem(context);
+          final movieItem = entity.searchList[index];
+          return _movieItem(context, movieItem);
         },
       ),
     );
   }
 
-  Widget _movieItem(BuildContext context) {
+  Widget _movieItem(BuildContext context, MovieItemEntity movieItem) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, PagePath.detailMovie, arguments: ArgumentBundle(id: '1')),
+      onTap: () => Navigator.pushNamed(context, PagePath.detailMovie,
+          arguments: ArgumentBundle(id: movieItem.id)),
       child: Padding(
         padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
         child: Row(
@@ -49,8 +86,8 @@ class SearchPage extends StatelessWidget {
                 aspectRatio: 3 / 4,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(16),
-                  child: Image.asset(
-                    Resources.adit,
+                  child: CachedNetworkImage(
+                    imageUrl: movieItem.posterPath,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -63,7 +100,7 @@ class SearchPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'Dune',
+                    movieItem.title,
                     style: AppTheme.headline2,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -71,9 +108,7 @@ class SearchPage extends StatelessWidget {
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      const ChipItem(text: 'Action'),
-                      const SizedBox(width: 8),
-                      const ChipItem(text: '2020'),
+                      ChipItem(text: movieItem.releaseDate),
                       const SizedBox(width: 8),
                       ChipItem(
                         widget: Row(
@@ -85,7 +120,7 @@ class SearchPage extends StatelessWidget {
                               color: AppTheme.yellow,
                             ),
                             const SizedBox(width: 8),
-                            Text('9.2', style: AppTheme.text2),
+                            Text(movieItem.rating.toString(), style: AppTheme.text2),
                           ],
                         ),
                       ),
@@ -93,7 +128,7 @@ class SearchPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Dune is a 1984 American epic space opera film directed by Ron Howard and written by Howard and David Peoples. Dune is a 1984 American epic space opera film directed by Ron Howard and written by Howard and David Peoples. Dune is a 1984 American epic space opera film directed by Ron Howard and written by Howard and David Peoples.',
+                    movieItem.synopsis,
                     style: AppTheme.subText1,
                     maxLines: 4,
                     overflow: TextOverflow.ellipsis,
@@ -107,11 +142,11 @@ class SearchPage extends StatelessWidget {
     );
   }
 
-  Padding _searchResultTotal() {
+  Padding _searchResultTotal(SearchEntity entity) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Text(
-        'Search result for "Dune" (1)',
+        'Search result for "${entity.keyword}" (${entity.totalFound})',
         style: AppTheme.headline3,
       ),
     );
@@ -171,6 +206,11 @@ class SearchPage extends StatelessWidget {
               ),
               style: AppTheme.headline3,
               cursorColor: AppTheme.white,
+              onChanged: (query) {
+                if (query.isNotEmpty) {
+                  context.read<SearchBloc>().add(SearchFetched(query: query));
+                }
+              },
             ),
           ),
         ),
