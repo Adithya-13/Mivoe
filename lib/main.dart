@@ -5,9 +5,26 @@ import 'package:mivoe/mivoe.dart';
 
 void main() {
   debugPrint = (String? message, {int? wrapWidth}) {};
+  WidgetsFlutterBinding.ensureInitialized();
   BlocOverrides.runZoned(
     () => runApp(
-      MivoeApp(),
+      MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider(
+            create: (context) => DashboardRepository(),
+          ),
+        ],
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider<NowPlayingBloc>(
+              create: (context) => NowPlayingBloc(
+                dashboardRepository: context.read<DashboardRepository>(),
+              ),
+            ),
+          ],
+          child: MivoeApp(),
+        ),
+      ),
     ),
   );
 }

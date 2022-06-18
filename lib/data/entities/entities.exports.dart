@@ -3,5 +3,5 @@
 // run :
 // genexp
 
-export 'bloc_delegate.dart';
-export 'now_playing/now_playing.exports.dart';
+export 'dashboard_entities.dart';
+export 'entities.dart';

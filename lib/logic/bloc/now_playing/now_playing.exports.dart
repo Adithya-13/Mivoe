@@ -3,5 +3,4 @@
 // run :
 // genexp
 
-export 'bloc_delegate.dart';
-export 'now_playing/now_playing.exports.dart';
+export 'nowplaying_bloc.dart';

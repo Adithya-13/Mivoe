@@ -21,11 +21,11 @@ class DetailMoviePage extends StatelessWidget {
                   children: [
                     const SizedBox(height: 16),
                     _movieDetail(context),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 16),
                     _titleMovie(),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 8),
                     _divider(),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 8),
                     _synopsis(),
                   ],
                 ),
@@ -115,7 +115,7 @@ class DetailMoviePage extends StatelessWidget {
         color: AppTheme.purpleDark,
         borderRadius: BorderRadius.circular(20),
       ),
-      height: MediaQuery.of(context).size.height * 0.36,
+      height: MediaQuery.of(context).size.height * 0.32,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -137,12 +137,12 @@ class DetailMoviePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _detailItem(
-                  title: 'Genre',
-                  value: 'Action',
-                  icon: SvgPicture.asset(
-                    Resources.movie,
+                  title: 'Release Date',
+                  value: '13/06/2020',
+                  icon: const Icon(
+                    Icons.calendar_month_rounded,
                     color: AppTheme.white,
-                    width: 28,
+                    size: 28,
                   ),
                 ),
                 _detailItem(
@@ -196,15 +196,25 @@ class DetailMoviePage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'Dune',
+            'Dune (2020)',
             style: AppTheme.headline1,
           ),
-          Text(
-            '13 June 2020',
-            style: AppTheme.text1,
+          const SizedBox(height: 8),
+          Wrap(
+            children:
+                ['Action', 'Fantasy', 'Sci-fi', 'Superhero', 'Drama', 'Horor']
+                    .map(
+                      (item) => Padding(
+                        padding: const EdgeInsets.only(right: 8, bottom: 8),
+                        child: ChipItem(
+                          text: item,
+                        ),
+                      ),
+                    )
+                    .toList(),
           ),
         ],
       ),

@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mivoe/mivoe.dart';
@@ -14,6 +16,14 @@ class DashBoardPage extends StatefulWidget {
 
 class _DashBoardPageState extends State<DashBoardPage> {
   final GlobalKey<SliderDrawerState> _key = GlobalKey<SliderDrawerState>();
+  late MovieItemEntity _movieItemEntity = MovieItemEntity();
+
+  @override
+  void initState() {
+    context.read<NowPlayingBloc>().add(NowPlayingFetched());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,65 +127,116 @@ class _DashBoardPageState extends State<DashBoardPage> {
           'Now Playing',
           style: AppTheme.headline3,
         ),
-        SizedBox(
-          height: MediaQuery.of(context).size.width * 0.8,
-          child: Swiper(
-            layout: SwiperLayout.CUSTOM,
-            customLayoutOption:
-                CustomLayoutOption(startIndex: -1, stateCount: 3)
-                  ..addRotate([-45.0 / 180, 0.0, 45.0 / 180])
-                  ..addTranslate(
-                    [
-                      Offset(-(MediaQuery.of(context).size.width * 0.7), -40.0),
-                      const Offset(0.0, 0.0),
-                      Offset((MediaQuery.of(context).size.width * 0.7), -40.0),
-                    ],
-                  ),
-            itemWidth: MediaQuery.of(context).size.width * 0.5,
-            itemHeight: MediaQuery.of(context).size.width * 0.5 +
-                (MediaQuery.of(context).size.width * 0.5 / 3),
-            itemBuilder: (context, index) {
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  Resources.adit,
-                  fit: BoxFit.cover,
+        BlocBuilder<NowPlayingBloc, NowPlayingState>(
+          builder: (context, state) {
+            if (state is NowPlayingLoading || state is NowPlayingInitial) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.width * 0.8,
+                child: const Center(
+                  child: CircularProgressIndicator(),
                 ),
               );
-            },
-            itemCount: 3,
-            onTap: (index) {
-              Navigator.pushNamed(context, PagePath.detailMovie);
-            },
-          ),
-        ),
-        Text(
-          'Dune',
-          style: AppTheme.headline3,
-        ),
-        const SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const ChipItem(text: 'Action'),
-            const SizedBox(width: 8),
-            const ChipItem(text: '2020'),
-            const SizedBox(width: 8),
-            ChipItem(
-              widget: Row(
+            } else if (state is NowPlayingFailure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.width * 0.8,
+                child: Center(
+                  child: Text('Failed to load', style: AppTheme.headline1),
+                ),
+              );
+            } else if (state is NowPlayingLoaded) {
+              final movieList = state.nowPlayingEntity.nowPlayingList;
+              return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SvgPicture.asset(
-                    Resources.star,
-                    width: 12,
-                    color: AppTheme.yellow,
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.8,
+                    child: Swiper(
+                      layout: SwiperLayout.CUSTOM,
+                      customLayoutOption:
+                          CustomLayoutOption(startIndex: -1, stateCount: 3)
+                            ..addRotate([-45.0 / 180, 0.0, 45.0 / 180])
+                            ..addTranslate(
+                              [
+                                Offset(
+                                    -(MediaQuery.of(context).size.width * 0.7),
+                                    -40.0),
+                                const Offset(0.0, 0.0),
+                                Offset(
+                                    (MediaQuery.of(context).size.width * 0.7),
+                                    -40.0),
+                              ],
+                            ),
+                      itemWidth: MediaQuery.of(context).size.width * 0.5,
+                      itemHeight: MediaQuery.of(context).size.width * 0.5 +
+                          (MediaQuery.of(context).size.width * 0.5 / 3),
+                      itemBuilder: (context, index) {
+                        final movieItem = movieList[index];
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: CachedNetworkImage(
+                            imageUrl: movieItem.posterPath,
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      },
+                      itemCount: movieList.length,
+                      onTap: (index) {
+                        Navigator.pushNamed(context, PagePath.detailMovie);
+                      },
+                      onIndexChanged: (index) {
+                        setState(() {
+                          _movieItemEntity = movieList[index];
+                        });
+                      },
+                    ),
                   ),
-                  const SizedBox(width: 8),
-                  Text('9.2', style: AppTheme.text2),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        _movieItemEntity.title.isEmpty
+                            ? movieList[0].title
+                            : _movieItemEntity.title,
+                        style: AppTheme.headline3,
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(width: 8),
+                          ChipItem(
+                            text: _movieItemEntity.releaseDate.isEmpty
+                                ? movieList[0].releaseDate
+                                : _movieItemEntity.releaseDate,
+                          ),
+                          const SizedBox(width: 8),
+                          ChipItem(
+                            widget: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SvgPicture.asset(
+                                  Resources.star,
+                                  width: 12,
+                                  color: AppTheme.yellow,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                    _movieItemEntity.rating == 0
+                                        ? movieList[0].rating.toString()
+                                        : _movieItemEntity.rating.toString(),
+                                    style: AppTheme.text2),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ],
-              ),
-            ),
-          ],
+              );
+            }
+            return Container();
+          },
         ),
       ],
     );
@@ -255,7 +316,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Top Rated',
+            title,
             style: AppTheme.headline3,
           ),
           GestureDetector(

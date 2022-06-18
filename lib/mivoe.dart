@@ -3,6 +3,7 @@
 // run :
 // genexp
 
+export 'data/data.exports.dart';
 export 'logic/logic.exports.dart';
 export 'main.dart';
 export 'presentation/presentation.exports.dart';
