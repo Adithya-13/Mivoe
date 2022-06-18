@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:mivoe/mivoe.dart';
 
 class MivoeApi {
@@ -19,6 +18,15 @@ class MivoeApi {
     try {
       final response = await dioClient.get('/movie/top_rated');
       return ApiResult.success(TopRatedResponse.fromJson(response));
+    } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<PopularResponse>> fetchPopular() async {
+    try {
+      final response = await dioClient.get('/movie/popular');
+      return ApiResult.success(PopularResponse.fromJson(response));
     } catch (e) {
       return ApiResult.failure(NetworkExceptions.getDioException(e));
     }

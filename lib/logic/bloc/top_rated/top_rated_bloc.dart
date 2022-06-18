@@ -16,8 +16,8 @@ class TopRatedBloc extends Bloc<TopRatedEvent, TopRatedState> {
           emit(TopRatedLoaded(topRatedEntity: entity));
         }),
         failure: (error) {
-          emit(TopRatedFailure(
-              error: NetworkExceptions.getErrorMessage(error)));
+          emit(
+              TopRatedFailure(error: NetworkExceptions.getErrorMessage(error)));
         },
       );
     });

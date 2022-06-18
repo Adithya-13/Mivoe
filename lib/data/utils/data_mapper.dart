@@ -43,4 +43,25 @@ class DataMapper {
       failure: (error) => ApiResult.failure(error),
     );
   }
+
+  static ApiResult<PopularEntity> mapPopularEntity(
+      ApiResult<PopularResponse> response) {
+    return response.when(
+      success: (PopularResponse data) => ApiResult.success(
+        PopularEntity(
+          popularList: data.popularList
+              ?.map((item) => MovieItemEntity(
+                    id: item.id.toString(),
+                    title: item.title,
+                    posterPath:
+                        "https://image.tmdb.org/t/p/original${item.posterPath}",
+                    releaseDate: item.releaseDate,
+                    rating: item.voteAverage,
+                  ))
+              .toList(),
+        ),
+      ),
+      failure: (error) => ApiResult.failure(error),
+    );
+  }
 }
