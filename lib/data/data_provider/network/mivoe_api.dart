@@ -57,8 +57,7 @@ class MivoeApi {
         'query': query,
       });
       return ApiResult.success(SearchResponse.fromJson(response));
-    } catch (e, stacktrace) {
-      print(stacktrace);
+    } catch (e) {
       return ApiResult.failure(NetworkExceptions.getDioException(e));
     }
   }

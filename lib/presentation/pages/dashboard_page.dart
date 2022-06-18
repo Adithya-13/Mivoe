@@ -34,7 +34,16 @@ class _DashBoardPageState extends State<DashBoardPage> {
       body: SafeArea(
         child: SliderDrawer(
           slider: NavigationDrawer(
-            onItemClick: (item) {},
+            onItemClick: (item) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Im so sorry, $item has not been implemented yet because of time.',
+                    style: AppTheme.text1,
+                  ),
+                ),
+              );
+            },
           ),
           key: _key,
           sliderOpenSize: MediaQuery.of(context).size.width * 0.7,
@@ -422,8 +431,8 @@ class _DashBoardPageState extends State<DashBoardPage> {
                           imageUrl: movieItem.posterPath,
                           placeholder: (context, url) {
                             return const Center(
-                                child: CircularProgressIndicator(),
-                              );
+                              child: CircularProgressIndicator(),
+                            );
                           },
                           errorWidget: (context, url, error) => const Icon(
                             Icons.error,

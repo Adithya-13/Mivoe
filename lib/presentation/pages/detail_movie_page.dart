@@ -75,24 +75,35 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                 },
               ),
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 16,
-              ),
-              padding: const EdgeInsets.symmetric(
-                vertical: 16,
-                horizontal: 24,
-              ),
-              decoration: BoxDecoration(
-                color: AppTheme.purple,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              width: double.infinity,
-              child: Text(
-                'Watch Trailer',
-                style: AppTheme.headline3,
-                textAlign: TextAlign.center,
+            GestureDetector(
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                        'Im so sorry, TMDB API doesn\'t provide the link of the trailer :(',
+                        style: AppTheme.text1),
+                  ),
+                );
+              },
+              child: Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 16,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 16,
+                  horizontal: 24,
+                ),
+                decoration: BoxDecoration(
+                  color: AppTheme.purple,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                width: double.infinity,
+                child: Text(
+                  'Watch Trailer',
+                  style: AppTheme.headline3,
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
           ],
@@ -136,6 +147,13 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
               favoriteSetState(() {
                 isFavorite = !isFavorite;
               });
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                      'Im so sorry, favorite feature is not available yet :(',
+                      style: AppTheme.text1),
+                ),
+              );
             },
             child: Container(
               decoration: const BoxDecoration(
