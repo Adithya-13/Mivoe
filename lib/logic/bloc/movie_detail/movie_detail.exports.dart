@@ -3,5 +3,4 @@
 // run :
 // genexp
 
-export 'dashboard_repository.dart';
-export 'detail_repository.dart';
+export 'movie_detail_bloc.dart';

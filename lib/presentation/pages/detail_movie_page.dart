@@ -1,9 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mivoe/mivoe.dart';
 
 class DetailMoviePage extends StatefulWidget {
-  const DetailMoviePage({Key? key}) : super(key: key);
+  final ArgumentBundle? bundle;
+  const DetailMoviePage({Key? key, this.bundle}) : super(key: key);
 
   @override
   State<DetailMoviePage> createState() => _DetailMoviePageState();
@@ -11,6 +14,14 @@ class DetailMoviePage extends StatefulWidget {
 
 class _DetailMoviePageState extends State<DetailMoviePage> {
   bool isFavorite = false;
+
+  @override
+  void initState() {
+    if (widget.bundle != null) {
+      context.read<MovieDetailBloc>().add(MovieDetailFetched(movieId: widget.bundle!.id));
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,24 +33,44 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
             _headerDetail(context),
             const SizedBox(height: 16),
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 16),
-                    _movieDetail(context),
-                    const SizedBox(height: 16),
-                    _titleMovie(),
-                    const SizedBox(height: 8),
-                    _divider(),
-                    const SizedBox(height: 8),
-                    _synopsis(),
-                    const SizedBox(height: 8),
-                    _divider(),
-                    const SizedBox(height: 8),
-                    _other(),
-                  ],
-                ),
+              child: BlocBuilder<MovieDetailBloc, MovieDetailState>(
+                builder: (context, state) {
+                  if (state is MovieDetailLoading ||
+                      state is MovieDetailInitial) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is MovieDetailFailure) {
+                    return Center(
+                      child: Text(
+                        'Failed to show data',
+                        style: AppTheme.headline1,
+                      ),
+                    );
+                  } else if (state is MovieDetailLoaded) {
+                    final movieItem = state.movieDetailEntity;
+                    return SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 16),
+                          _movieDetail(context, movieItem),
+                          const SizedBox(height: 16),
+                          _titleMovie(movieItem),
+                          const SizedBox(height: 8),
+                          _divider(),
+                          const SizedBox(height: 8),
+                          _synopsis(movieItem),
+                          const SizedBox(height: 8),
+                          _divider(),
+                          const SizedBox(height: 8),
+                          _other(movieItem),
+                        ],
+                      ),
+                    );
+                  }
+                  return Container();
+                },
               ),
             ),
             Container(
@@ -126,7 +157,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
     );
   }
 
-  Widget _movieDetail(BuildContext context) {
+  Widget _movieDetail(BuildContext context, MovieDetailEntity movieItem) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 24),
       padding: const EdgeInsets.all(16),
@@ -143,8 +174,8 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
               aspectRatio: 3 / 4,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  Resources.adit,
+                child: CachedNetworkImage(
+                  imageUrl: movieItem.posterPath,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -157,7 +188,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
               children: [
                 _detailItem(
                   title: 'Release Date',
-                  value: '13/06/2020',
+                  value: movieItem.releaseDate,
                   icon: const Icon(
                     Icons.calendar_month_rounded,
                     color: AppTheme.white,
@@ -166,7 +197,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                 ),
                 _detailItem(
                   title: 'Duration',
-                  value: '2h 35m',
+                  value: '${movieItem.duration} min',
                   icon: SvgPicture.asset(
                     Resources.duration,
                     color: AppTheme.white,
@@ -175,7 +206,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                 ),
                 _detailItem(
                   title: 'Rating',
-                  value: '9.2/10',
+                  value: '${movieItem.rating}',
                   icon: SvgPicture.asset(
                     Resources.star,
                     color: AppTheme.white,
@@ -210,7 +241,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
     );
   }
 
-  Widget _titleMovie() {
+  Widget _titleMovie(MovieDetailEntity movieItem) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
@@ -218,27 +249,26 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'Dune (2020)',
+            movieItem.title,
             style: AppTheme.headline1,
           ),
           const SizedBox(height: 4),
           Text(
-            'How much can you know about yourself if you\'ve never been in a fight?',
+            movieItem.tagline,
             style: AppTheme.text2,
           ),
           const SizedBox(height: 8),
           Wrap(
-            children:
-                ['Action', 'Fantasy', 'Sci-fi', 'Superhero', 'Drama', 'Horor']
-                    .map(
-                      (item) => Padding(
-                        padding: const EdgeInsets.only(right: 8, bottom: 8),
-                        child: ChipItem(
-                          text: item,
-                        ),
-                      ),
-                    )
-                    .toList(),
+            children: movieItem.genres
+                .map(
+                  (item) => Padding(
+                    padding: const EdgeInsets.only(right: 8, bottom: 8),
+                    child: ChipItem(
+                      text: item,
+                    ),
+                  ),
+                )
+                .toList(),
           ),
         ],
       ),
@@ -255,7 +285,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
     );
   }
 
-  Widget _synopsis() {
+  Widget _synopsis(MovieDetailEntity movieItem) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
@@ -268,7 +298,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Dune is a 1984 American epic space opera film directed by Howard G. Gullit and written by Michael Hammill. The film is based on the novel of the same name by Frank Herbert, and stars Peter Ostrander, James D Dune is a 1984 American epic space opera film directed by Howard G. Gullit and written by Michael Hammill. The film is based on the novel of the same name by Frank Herbert, and stars Peter Ostrander, James DDune is a 1984 American epic space opera film directed by Howard G. Gullit and written by Michael Hammill. The film is based on the novel of the same name by Frank Herbert, and stars Peter Ostrander, James DDune is a 1984 American epic space opera film directed by Howard G. Gullit and written by Michael Hammill. The film is based on the novel of the same name by Frank Herbert, and stars Peter Ostrander, James DDune is a 1984 American epic space opera film directed by Howard G. Gullit and written by Michael Hammill. The film is based on the novel of the same name by Frank Herbert, and stars Peter Ostrander, James D',
+            movieItem.synopsis,
             style: AppTheme.text1,
           ),
         ],
@@ -276,7 +306,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
     );
   }
 
-  Widget _other() {
+  Widget _other(MovieDetailEntity movieItem) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
@@ -285,27 +315,27 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
         children: [
           _otherItem(
             title: 'Budget',
-            value: '\$1,000,000',
+            value: movieItem.budget,
           ),
           const SizedBox(height: 8),
           _otherItem(
             title: 'Revenue',
-            value: '\$1,000,000',
+            value: movieItem.revenue,
           ),
           const SizedBox(height: 8),
           _otherItem(
             title: 'Popularity',
-            value: '0.5',
+            value: movieItem.popularity,
           ),
           const SizedBox(height: 8),
           _otherItem(
             title: 'Vote Average',
-            value: '8.2',
+            value: movieItem.voteAverage,
           ),
           const SizedBox(height: 8),
           _otherItem(
             title: 'Vote Count',
-            value: '1306',
+            value: movieItem.voteCount,
           ),
         ],
       ),

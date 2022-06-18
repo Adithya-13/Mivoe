@@ -1,10 +1,10 @@
 class ArgumentBundle {
-  final int id;
+  final String id;
   final dynamic extras;
   final String identifier;
 
   ArgumentBundle({
-    this.id = 0,
+    this.id = '',
     this.extras = '',
     this.identifier = '',
   });

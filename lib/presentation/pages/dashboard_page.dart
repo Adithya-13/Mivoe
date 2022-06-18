@@ -184,7 +184,8 @@ class _DashBoardPageState extends State<DashBoardPage> {
                       },
                       itemCount: movieList.length,
                       onTap: (index) {
-                        Navigator.pushNamed(context, PagePath.detailMovie);
+                        final movieItem = movieList[index];
+                        Navigator.pushNamed(context, PagePath.detailMovie, arguments: ArgumentBundle(id: movieItem.id));
                       },
                       onIndexChanged: (index) {
                         setState(() {
@@ -385,7 +386,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
   Widget _movieItem(
       BuildContext context, int index, MovieItemEntity movieItem) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, PagePath.detailMovie),
+      onTap: () => Navigator.pushNamed(context, PagePath.detailMovie, arguments: ArgumentBundle(id: movieItem.id)),
       child: Container(
         padding: EdgeInsets.only(left: index == 0 ? 16 : 0, right: 16),
         height: MediaQuery.of(context).size.height * 0.24,

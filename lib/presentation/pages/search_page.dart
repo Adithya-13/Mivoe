@@ -38,7 +38,7 @@ class SearchPage extends StatelessWidget {
 
   Widget _movieItem(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, PagePath.detailMovie),
+      onTap: () => Navigator.pushNamed(context, PagePath.detailMovie, arguments: ArgumentBundle(id: '1')),
       child: Padding(
         padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
         child: Row(

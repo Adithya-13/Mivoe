@@ -4,4 +4,5 @@
 // genexp
 
 export 'dashboard_entities.dart';
+export 'detail_entities.dart';
 export 'entities.dart';

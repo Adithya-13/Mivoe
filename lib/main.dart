@@ -10,8 +10,11 @@ void main() {
     () => runApp(
       MultiRepositoryProvider(
         providers: [
-          RepositoryProvider(
+          RepositoryProvider<DashboardRepository>(
             create: (context) => DashboardRepository(),
+          ),
+          RepositoryProvider<DetailRepository>(
+            create: (context) => DetailRepository(),
           ),
         ],
         child: MultiBlocProvider(
@@ -36,11 +39,17 @@ void main() {
                 dashboardRepository: context.read<DashboardRepository>(),
               ),
             ),
+            BlocProvider<MovieDetailBloc>(
+              create: (context) => MovieDetailBloc(
+                detailRepository: context.read<DetailRepository>(),
+              ),
+            ),
           ],
           child: MivoeApp(),
         ),
       ),
     ),
+    blocObserver: SimpleBlocObserver(),
   );
 }
 
