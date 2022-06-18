@@ -16,90 +16,104 @@ class SearchPage extends StatelessWidget {
           children: [
             _headerSearch(context),
             const SizedBox(height: 24),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Text(
-                'Search result for "Dune" (1)',
-                style: AppTheme.headline3,
+            _searchResultTotal(),
+            const SizedBox(height: 24),
+            _movieList(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Expanded _movieList() {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: 10,
+        physics: const BouncingScrollPhysics(),
+        itemBuilder: (context, index) {
+          return _movieItem(context);
+        },
+      ),
+    );
+  }
+
+  Widget _movieItem(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, PagePath.detailMovie),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+        child: Row(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.4,
+              child: AspectRatio(
+                aspectRatio: 3 / 4,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.asset(
+                    Resources.adit,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(width: 16),
             Expanded(
-              child: ListView.builder(
-                itemCount: 10,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding:
-                        const EdgeInsets.only(left: 24, right: 24, bottom: 24),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.width * 0.4,
-                          child: AspectRatio(
-                            aspectRatio: 3 / 4,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
-                              child: Image.asset(
-                                Resources.adit,
-                                fit: BoxFit.cover,
-                              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Dune',
+                    style: AppTheme.headline2,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      const ChipItem(text: 'Action'),
+                      const SizedBox(width: 8),
+                      const ChipItem(text: '2020'),
+                      const SizedBox(width: 8),
+                      ChipItem(
+                        widget: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SvgPicture.asset(
+                              Resources.star,
+                              width: 12,
+                              color: AppTheme.yellow,
                             ),
-                          ),
+                            const SizedBox(width: 8),
+                            Text('9.2', style: AppTheme.text2),
+                          ],
                         ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Text(
-                                'Dune',
-                                style: AppTheme.headline2,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 8),
-                              Row(
-                                children: [
-                                  const ChipItem(text: 'Action'),
-                                  const SizedBox(width: 8),
-                                  const ChipItem(text: '2020'),
-                                  const SizedBox(width: 8),
-                                  ChipItem(
-                                    widget: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        SvgPicture.asset(
-                                          Resources.star,
-                                          width: 12,
-                                          color: AppTheme.yellow,
-                                        ),
-                                        const SizedBox(width: 8),
-                                        Text('9.2', style: AppTheme.text2),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 12),
-                              Text(
-                                'Dune is a 1984 American epic space opera film directed by Ron Howard and written by Howard and David Peoples. Dune is a 1984 American epic space opera film directed by Ron Howard and written by Howard and David Peoples. Dune is a 1984 American epic space opera film directed by Ron Howard and written by Howard and David Peoples.',
-                                style: AppTheme.subText1,
-                                maxLines: 4,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Dune is a 1984 American epic space opera film directed by Ron Howard and written by Howard and David Peoples. Dune is a 1984 American epic space opera film directed by Ron Howard and written by Howard and David Peoples. Dune is a 1984 American epic space opera film directed by Ron Howard and written by Howard and David Peoples.',
+                    style: AppTheme.subText1,
+                    maxLines: 4,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Padding _searchResultTotal() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Text(
+        'Search result for "Dune" (1)',
+        style: AppTheme.headline3,
       ),
     );
   }

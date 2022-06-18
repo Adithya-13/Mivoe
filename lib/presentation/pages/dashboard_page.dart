@@ -145,14 +145,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
             },
             itemCount: 3,
             onTap: (index) {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => DetailPage(
-              //       movie: movies[index],
-              //     ),
-              //   ),
-              // );
+              Navigator.pushNamed(context, PagePath.detailMovie);
             },
           ),
         ),
@@ -278,73 +271,76 @@ class _DashBoardPageState extends State<DashBoardPage> {
   }
 
   Widget _movieItem(int index, BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: index == 0 ? 16 : 0, right: 16),
-      height: MediaQuery.of(context).size.height * 0.24,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.2,
-            child: AspectRatio(
-              aspectRatio: 3 / 4,
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.asset(
-                        Resources.adit,
-                        fit: BoxFit.cover,
-                        height: MediaQuery.of(context).size.height * 0.16,
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, PagePath.detailMovie),
+      child: Container(
+        padding: EdgeInsets.only(left: index == 0 ? 16 : 0, right: 16),
+        height: MediaQuery.of(context).size.height * 0.24,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.2,
+              child: AspectRatio(
+                aspectRatio: 3 / 4,
+                child: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.asset(
+                          Resources.adit,
+                          fit: BoxFit.cover,
+                          height: MediaQuery.of(context).size.height * 0.16,
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: AppTheme.purpleDark,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            bottomRight: Radius.circular(20)),
-                      ),
-                      padding: const EdgeInsets.all(8),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SvgPicture.asset(
-                            Resources.star,
-                            width: 10,
-                            color: AppTheme.yellow,
-                          ),
-                          const SizedBox(width: 8),
-                          Text('9.2', style: AppTheme.subText1),
-                        ],
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: AppTheme.purpleDark,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              bottomRight: Radius.circular(20)),
+                        ),
+                        padding: const EdgeInsets.all(8),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SvgPicture.asset(
+                              Resources.star,
+                              width: 10,
+                              color: AppTheme.yellow,
+                            ),
+                            const SizedBox(width: 8),
+                            Text('9.2', style: AppTheme.subText1),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'Dune',
-            style: AppTheme.text1,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 2),
-          Text(
-            '2020',
-            style: AppTheme.subText1,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
+            const SizedBox(height: 4),
+            Text(
+              'Dune',
+              style: AppTheme.text1,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(height: 2),
+            Text(
+              '2020',
+              style: AppTheme.subText1,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
       ),
     );
   }

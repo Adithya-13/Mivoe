@@ -15,6 +15,8 @@ class PageRouter {
         return _buildRoute(settings, const DashBoardPage());
       case PagePath.search:
         return _buildRoute(settings, const SearchPage());
+      case PagePath.detailMovie:
+        return _buildRoute(settings, const DetailMoviePage());
       default:
         return _errorRoute();
     }
