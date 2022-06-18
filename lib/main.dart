@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -6,12 +9,28 @@ import 'package:mivoe/mivoe.dart';
 void main() {
   debugPrint = (String? message, {int? wrapWidth}) {};
   WidgetsFlutterBinding.ensureInitialized();
+
+  final dio = Dio();
+
+  final dioClient = DioClient(
+      baseUrl: 'https://api.themoviedb.org/3/',
+      apiKey:
+          'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MzQxMmM4OTFkMTRjZDBkNTQ3YjQ1MTY4NjM4MzNhYiIsInN1YiI6IjVmOWQ1ZmM3NTM4NjZlMDAzNmU5NGJhYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.sFqV8zoDl3H1waHewQ8S1WQdBh8YJWfSz_AXp_RVFes',
+      dio: dio,
+      httpClient: HttpClient());
+      
+  final mivoeApi = MivoeApi(
+    dioClient: dioClient,
+  );
+
   BlocOverrides.runZoned(
     () => runApp(
       MultiRepositoryProvider(
         providers: [
           RepositoryProvider<DashboardRepository>(
-            create: (context) => DashboardRepository(),
+            create: (context) => DashboardRepository(
+              mivoeApi: mivoeApi,
+            ),
           ),
           RepositoryProvider<DetailRepository>(
             create: (context) => DetailRepository(),

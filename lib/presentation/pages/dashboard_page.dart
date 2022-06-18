@@ -143,7 +143,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
               return SizedBox(
                 height: MediaQuery.of(context).size.width * 0.8,
                 child: Center(
-                  child: Text('Failed to load', style: AppTheme.headline1),
+                  child: Text(state.error, style: AppTheme.headline1),
                 ),
               );
             } else if (state is NowPlayingLoaded) {

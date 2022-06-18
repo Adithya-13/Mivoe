@@ -1,10 +1,13 @@
 import 'package:mivoe/mivoe.dart';
 
 class DashboardRepository {
-  Future<NowPlayingEntity> getNowPlayingList() async {
-    await Future.delayed(const Duration(seconds: 3));
-    final NowPlayingEntity entity = Dummy.getNowPlayingList();
-    return entity;
+  final MivoeApi _mivoeApi;
+
+  DashboardRepository({required MivoeApi mivoeApi}) : _mivoeApi = mivoeApi;
+
+  Future<ApiResult<NowPlayingEntity>> getNowPlayingList() async {
+    final response = await _mivoeApi.fetchNowPlaying();
+    return DataMapper.mapNowPlayingEntity(response);
   }
 
   Future<TopRatedEntity> getTopRatedList() async {

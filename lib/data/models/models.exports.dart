@@ -3,5 +3,4 @@
 // run :
 // genexp
 
-export 'dummy.dart';
-export 'network/network.exports.dart';
+export 'now_playing_response.dart';

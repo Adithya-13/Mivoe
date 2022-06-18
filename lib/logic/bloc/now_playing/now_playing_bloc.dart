@@ -11,13 +11,15 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
       : super(NowPlayingInitial()) {
     on<NowPlayingFetched>((event, emit) async {
       emit(NowPlayingLoading());
-      try {
-        final NowPlayingEntity entity =
-            await dashboardRepository.getNowPlayingList();
-        emit(NowPlayingLoaded(nowPlayingEntity: entity));
-      } catch (e) {
-        emit(NowPlayingFailure(error: e.toString()));
-      }
+      final result = await dashboardRepository.getNowPlayingList();
+      result.when(
+        success: ((entity) {
+          emit(NowPlayingLoaded(nowPlayingEntity: entity));
+        }),
+        failure: (error) {
+          emit(NowPlayingFailure(error: NetworkExceptions.getErrorMessage(error)));
+        },
+      );
     });
   }
 }

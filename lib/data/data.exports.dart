@@ -5,4 +5,7 @@
 
 export 'data_provider/data_provider.exports.dart';
 export 'entities/entities.exports.dart';
+export 'models/models.exports.dart';
 export 'repositories/repositories.exports.dart';
+export 'services/services.exports.dart';
+export 'utils/utils.exports.dart';
