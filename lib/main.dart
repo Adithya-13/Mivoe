@@ -38,7 +38,9 @@ void main() {
             ),
           ),
           RepositoryProvider<SearchRepository>(
-            create: (context) => SearchRepository(),
+            create: (context) => SearchRepository(
+              mivoeApi: mivoeApi,
+            ),
           ),
         ],
         child: MultiBlocProvider(

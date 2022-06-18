@@ -178,6 +178,15 @@ class _DashBoardPageState extends State<DashBoardPage> {
                           borderRadius: BorderRadius.circular(20),
                           child: CachedNetworkImage(
                             imageUrl: movieItem.posterPath,
+                            placeholder: (context, url) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            },
+                            errorWidget: (context, url, error) => const Icon(
+                              Icons.error,
+                              color: AppTheme.pink,
+                            ),
                             fit: BoxFit.cover,
                           ),
                         );
@@ -411,6 +420,15 @@ class _DashBoardPageState extends State<DashBoardPage> {
                         borderRadius: BorderRadius.circular(20),
                         child: CachedNetworkImage(
                           imageUrl: movieItem.posterPath,
+                          placeholder: (context, url) {
+                            return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                          },
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.error,
+                            color: AppTheme.pink,
+                          ),
                           fit: BoxFit.cover,
                           height: MediaQuery.of(context).size.height * 0.16,
                         ),

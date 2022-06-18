@@ -41,11 +41,24 @@ class MivoeApi {
     }
   }
 
-  Future<ApiResult<MovieDetailResponse>> fetchDetailMovie(String movieId) async {
+  Future<ApiResult<MovieDetailResponse>> fetchDetailMovie(
+      String movieId) async {
     try {
       final response = await dioClient.get('/movie/$movieId');
       return ApiResult.success(MovieDetailResponse.fromJson(response));
     } catch (e) {
+      return ApiResult.failure(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future<ApiResult<SearchResponse>> fetchSearchMovies(String query) async {
+    try {
+      final response = await dioClient.get('/search/movie', queryParameters: {
+        'query': query,
+      });
+      return ApiResult.success(SearchResponse.fromJson(response));
+    } catch (e, stacktrace) {
+      print(stacktrace);
       return ApiResult.failure(NetworkExceptions.getDioException(e));
     }
   }

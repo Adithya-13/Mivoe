@@ -1,9 +1,12 @@
 import 'package:mivoe/mivoe.dart';
 
 class SearchRepository {
-  Future<SearchEntity> getSearchList(String query) async {
-    await Future.delayed(const Duration(seconds: 3));
-    final SearchEntity entity = Dummy.getSearchList();
-    return entity;
+  final MivoeApi _mivoeApi;
+
+  SearchRepository({required MivoeApi mivoeApi}) : _mivoeApi = mivoeApi;
+
+  Future<ApiResult<SearchEntity>> getSearchList(String query) async {
+    final response = await _mivoeApi.fetchSearchMovies(query);
+    return DataMapper.mapSearchEntity(response, query);
   }
 }

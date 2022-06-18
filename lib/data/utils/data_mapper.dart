@@ -110,4 +110,28 @@ class DataMapper {
       failure: (error) => ApiResult.failure(error),
     );
   }
+
+  static ApiResult<SearchEntity> mapSearchEntity(
+      ApiResult<SearchResponse> response, String query) {
+    return response.when(
+      success: (SearchResponse data) => ApiResult.success(
+        SearchEntity(
+          searchList: data.results
+              ?.map((item) => MovieItemEntity(
+                    id: item.id.toString(),
+                    title: item.title,
+                    posterPath:
+                        "https://image.tmdb.org/t/p/original${item.posterPath}",
+                    releaseDate: item.releaseDate,
+                    rating: item.voteAverage,
+                    synopsis: item.overview,
+                  ))
+              .toList(),
+              keyword: query,
+              totalFound: data.totalResults
+        ),
+      ),
+      failure: (error) => ApiResult.failure(error),
+    );
+  }
 }

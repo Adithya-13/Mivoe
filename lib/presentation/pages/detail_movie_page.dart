@@ -179,6 +179,15 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                 child: CachedNetworkImage(
                   imageUrl: movieItem.posterPath,
                   fit: BoxFit.cover,
+                  placeholder: (context, url) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                  errorWidget: (context, url, error) => const Icon(
+                    Icons.error,
+                    color: AppTheme.pink,
+                  ),
                 ),
               ),
             ),

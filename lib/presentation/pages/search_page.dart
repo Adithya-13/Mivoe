@@ -88,6 +88,15 @@ class _SearchPageState extends State<SearchPage> {
                   borderRadius: BorderRadius.circular(16),
                   child: CachedNetworkImage(
                     imageUrl: movieItem.posterPath,
+                    placeholder: (context, url) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                    errorWidget: (context, url, error) => const Icon(
+                      Icons.error,
+                      color: AppTheme.pink,
+                    ),
                     fit: BoxFit.cover,
                   ),
                 ),

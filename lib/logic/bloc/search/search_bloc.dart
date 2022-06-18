@@ -12,13 +12,15 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<SearchFetched>(
       (event, emit) async {
         emit(SearchLoading());
-        try {
-          final SearchEntity entity =
-              await searchRepository.getSearchList(event.query);
-          emit(SearchLoaded(searchEntity: entity));
-        } catch (e) {
-          emit(SearchFailure(error: e.toString()));
-        }
+        final result = await searchRepository.getSearchList(event.query);
+        result.when(
+          success: ((entity) {
+            emit(SearchLoaded(searchEntity: entity));
+          }),
+          failure: (error) {
+            emit(SearchFailure(error: NetworkExceptions.getErrorMessage(error)));
+          },
+        );
       },
       transformer: debounceSequential(const Duration(milliseconds: 300)),
     );
