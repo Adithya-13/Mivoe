@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/demo.png"/>
+  <img src="demo/cover.png"/>
 </p>
 
 ## Table of Contents
